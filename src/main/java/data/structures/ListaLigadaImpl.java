@@ -2,10 +2,10 @@ package data.structures;
 
 import java.util.NoSuchElementException;
 
-public class ListaLigadaImpl implements ListaLigada<Integer>{
+public class ListaLigadaImpl<T> implements ListaLigada<T>{
 
-    private Node first;
-    private Node last;
+    private Node<T> first;
+    private Node<T> last;
 
     @Override
     public String toString() {
@@ -13,8 +13,8 @@ public class ListaLigadaImpl implements ListaLigada<Integer>{
     }
 
     @Override
-    public void inserirInicio(Integer data) {
-        Node node = new Node(data);
+    public void inserirInicio(T data) {
+        Node<T> node = new Node<>(data);
         if (isEmpty()) {
             first = last = node;
         } else {
@@ -24,8 +24,8 @@ public class ListaLigadaImpl implements ListaLigada<Integer>{
     }
 
     @Override
-    public void inserirFinal(Integer data) {
-        Node node = new Node(data);
+    public void inserirFinal(T data) {
+        Node<T> node = new Node<>(data);
         if (isEmpty()) {
             first = node;
         } else {
@@ -35,19 +35,19 @@ public class ListaLigadaImpl implements ListaLigada<Integer>{
     }
 
     @Override
-    public Integer removerInicio() {
+    public T removerInicio() {
         if (isEmpty()) {
             throw new NoSuchElementException();
         }
 
         if (first == last) {
-            Node node = first;
+            Node<T> node = first;
             first = last = null;
             return node.value;
         }
-        Integer valueFirst = first.value;
+        T valueFirst = first.value;
 
-        Node second = first.next;
+        Node<T> second = first.next;
         first.next = null;
         first = second;
         return valueFirst;
@@ -56,16 +56,16 @@ public class ListaLigadaImpl implements ListaLigada<Integer>{
     }
 
     @Override
-    public Integer removerFinal() {
+    public T removerFinal() {
         if (isEmpty()) {
             throw new NoSuchElementException();
         }
         if (first == last) {
-            Integer node = first.value;
+            T node = first.value;
             first = last = null;
             return node;
         }
-        Node node = first;
+        Node<T> node = first;
         while (isNotNull(node)) {
             if (node.next == last) {
                 break;
@@ -73,7 +73,7 @@ public class ListaLigadaImpl implements ListaLigada<Integer>{
                 node = node.next;
             }
         }
-        Integer valueLast = node.next.value;
+        T valueLast = node.next.value;
         node.next = null;
         last = node;
         return valueLast;
@@ -89,15 +89,15 @@ public class ListaLigadaImpl implements ListaLigada<Integer>{
         return first == null;
     }
 
-    private boolean isNotNull(Node node) {
+    private boolean isNotNull(Node<T> node) {
         return node != null;
     }
 
-    private class Node {
-        private int value;
-        private Node next;
+    private class Node<T> {
+        private T value;
+        private ListaLigadaImpl<T>.Node<T> next;
 
-        public Node(int value) {
+        public Node(T value) {
             this.value = value;
 
         }
